@@ -1,28 +1,25 @@
 # chipwhisperer5-docker
-A dockerized chipwhisperer 5 for easy installation.
+
+A dockerized chipwhisperer 5 for easy installation. This is a fork of (https://github.com/nezza/chipwhisperer5-docker) with updated runtime and a docker-compose. It runs as user without --privileged.
 
 ## Disclaimer
 
-This is alpha software. This docker image is running in privileged mode and can pwn the host machine.
-
-The dockerized chipwhisperer should only be run on a trusted machine. The password to Jupyter is currently passed in cleartext via the environment. Also note that the default `run.sh` exposes the Jupyter notebook on the network, and not just locally. The notebook is also served via *HTTP*, so authentication tokens are sent *unencrypted*.
+This docker setup will bind to localhost:8888 with no password. I believe this is safe, but this behavior can be changed by commenting out a few lines in `chipwhisperer/startup.sh` and rebuilding the image. It might be to run the image as privileged when an access an access to `/dev/ttyACM0` is needed. Otherwise the device files in `/devacm/` can be used for APIs that allow setting a device file name.
 
 ## Install
 
 To install, simply copy and load the newae udev rules and build the docker image:
 
 ```
-sudo cp 99-newae.rules /etc/udev/rules.d
+sudo cp chipwhisper/99-newae.rules /etc/udev/rules.d
 sudo udevadm control --reload-rules
-docker build -t cw5 .
+docker-compose build
 ```
 
 ## Run
 
-To run, simply run `run.sh` with a supplied authentication token and a directory that should be used as the workspace. If password is not supplied, one will be generated automatically.
-
 ```
-./run.sh /home/chipwhisperer/chipwhisperer testpassword
+docker-compose up
 ```
 
 ## Use
@@ -31,16 +28,12 @@ The Jupyter Notebook should then be running on port 8888. You can visit it by si
 
 http://127.0.0.1:8888/
 
+The working directory will be initialized in workspace/ and will persist across updates or rebuilts. Labs require heavy modification of this directory, make sure you backup everything you want to keep.
+
 ## Full installation example:
 
 ```
 sudo cp 99-newae.rules /etc/udev/rules.d
 sudo udevadm control --reload-rules
-docker build -t cw5 .
-
-# Clone example projects
-git clone --recursive https://github.com/newaetech/chipwhisperer.git
-./run.sh ${PWD}/chipwhisperer testpassword
-
-# Now go to http://127.0.0.1:8888/ in a browser!
+docker-compose up -d
 ```
