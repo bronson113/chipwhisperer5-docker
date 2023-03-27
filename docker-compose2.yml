@@ -1,0 +1,18 @@
+# this docker-compose may work with older versions of docker/docker-compose
+version: "2.4"
+services:
+  jupyter:
+    build: chipwhisperer
+    ports: ["127.0.0.1:8888:8888"]
+    volumes:
+      - /dev/bus/usb:/dev/bus/usb
+      #- /dev:/dev_host
+      - ./workspace:/cw_workspace
+    environment:
+      - JUPYTER_OPT=
+    device_cgroup_rules:
+      - "c 189:* rmw"
+      - "c 166:* rmw"
+  # It is not needed anymore to be privileged, but you may have to add this, e.g. for firmware updates
+  # privileged:
+  #    true
