@@ -28,12 +28,20 @@ The Jupyter Notebook should then be running on port 8888. You can visit it by si
 
 http://127.0.0.1:8888/
 
-The working directory will be initialized in workspace/ and will persist across updates or rebuilts. Labs require heavy modification of this directory, make sure you backup everything you want to keep.
+The working directory will be initialized in workspace/ and will persist across updates or rebuilds. Labs require heavy modification of this directory, make sure you backup everything you want to keep.
 
 ## Full installation example:
 
 ```
-sudo cp 99-newae.rules /etc/udev/rules.d
+sudo cp chipwhisper/99-newae.rules /etc/udev/rules.d
 sudo udevadm control --reload-rules
 docker-compose up -d
+```
+
+## Docker-compose problems
+
+Some older versions of docker-compose (such as in Ubuntu 20.04) have troubles with IPv6 addresses and docker-compose version 3. Use the alternate docker-compose script if needed.
+
+```
+cp docker-compose2.yml docker-compose.yml
 ```
