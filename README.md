@@ -62,3 +62,12 @@ And add the interactive block with
 ```
 %matplotlib widget
 ```
+
+## Workspace can't be create
+
+When the outer username isn't user, the workspace folder won't provide permission for the inner user to work with.
+To get around this, chmod the workspace folder to provide write.
+
+```
+chmod 777 workspace
+```
