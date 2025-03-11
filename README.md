@@ -45,3 +45,20 @@ Some older versions of docker-compose (such as in Ubuntu 20.04) have troubles wi
 ```
 cp docker-compose2.yml docker-compose.yml
 ```
+
+## Jupyter Matplotlib
+
+To use interactive plot in jupyter notebook
+Add the following to the notebook cell and run
+
+```
+!pip install ipython ipympl nodejs-bin --break-system-package
+!jupyter labextension install @jupyter-widgets/jupyterlab-manager
+!jupyter labextension install jupyter-matplotlib
+!jupyter nbextension enable --py widgetsnbextension
+```
+
+And add the interactive block with
+```
+%matplotlib widget
+```

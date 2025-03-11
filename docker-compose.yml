@@ -6,7 +6,7 @@ services:
     volumes:
       - /dev/bus/usb:/dev/bus/usb
       #- /dev:/dev_host
-      - ./workspace:/cw_workspace
+      - ./workspace:/cw_workspace:rw
     environment:
       - JUPYTER_OPT=
     device_cgroup_rules:
